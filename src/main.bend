@@ -2,21 +2,21 @@ object Position { row, col }
 
 type Piece:
   Pawn { color, position, value }
-  Knight { color, position, value } 
+  Knight { color, position, value }
   Bishop { color, position, value }
   Rook { color, position, value }
   Queen { color, position, value }
   King { color, position, value }
 
 type Color:
-  White 
+  White
   Black
 
 type Board:
   Empty
   Occupied { piece }
 
-type Game:  
+type Game:
   GameState { board, turn }
 
 def init_board():
@@ -68,7 +68,7 @@ def init_board():
         case _:
           Board/Occupied { piece } :: board
 
-      col = col + 1 
+      col = col + 1
       row = match col == 8:
         case True:
           row + 1
@@ -85,7 +85,7 @@ def parse_move(notation):
 
 def is_valid_move(game, start_pos, end_pos):
   # Implement rules for valid moves based on piece type
-  # Return True if valid, False otherwise 
+  # Return True if valid, False otherwise
   # ...
   return True
 
@@ -130,47 +130,51 @@ def minimax(game, depth, maximizing_player):
           min_eval = inf
           fold get_possible_moves(game) with min_eval:
             case []:
-              return min_eval  
+              return min_eval
             case move :: moves:
               updated_game = make_move(game, move)
               eval = minimax(updated_game, depth - 1, True)
               return min(min_eval, eval)
 
+def play_game(game):
+  match is_game_over(game):
+    case True:
+      match is_checkmate(game):
+        case (True, Color/White):
+          return "Black wins!"
+        case (True, Color/Black):
+          return "White wins!"
+        case _:
+          return "Draw!"
+    case False:
+      match game.turn:
+        case Color/White:
+          # Player's turn
+          move = get_player_move()
+          updated_game = make_move(game, move)
+        case Color/Black:
+          # AI's turn
+          fold get_possible_moves(game) with (best_move = None, best_eval = -inf):
+            case []:
+              (best_move, best_eval)
+            case move :: moves:
+              updated_game = make_move(game, move)
+              eval = minimax(updated_game, 4, False)
+              match eval > best_eval:
+                case True:
+                  (move, eval)
+                case False:
+                  (best_move, best_eval)
+          updated_game = make_move(game, best_move)
+
+      next_turn = match game.turn:
+        case Color/White:
+          Color/Black
+        case Color/Black:
+          Color/White
+      
+      return play_game(Game/GameState { board: updated_game.board, turn: next_turn })
+
 def main():
   game = Game/GameState { board: init_board(), turn: Color/White }
-
-  while not is_game_over(game):
-    match game.turn:
-      case Color/White:
-        # Player's turn
-        move = get_player_move()
-        game = make_move(game, move)
-      case Color/Black:  
-        # AI's turn
-        fold get_possible_moves(game) with (best_move = None, best_eval = -inf):
-          case []:
-            (best_move, best_eval)
-          case move :: moves:
-            updated_game = make_move(game, move)
-            eval = minimax(updated_game, 4, False)
-            match eval > best_eval:
-              case True:
-                (move, eval)
-              case False:
-                (best_move, best_eval)
-        
-        game = make_move(game, best_move)
-
-    game = Game/GameState { board: game.board, turn: match game.turn:
-                                                       case Color/White:
-                                                         Color/Black
-                                                       case Color/Black:
-                                                         Color/White }
-              
-  match is_checkmate(game):
-    case (True, Color/White):
-      return "Black wins!"
-    case (True, Color/Black):  
-      return "White wins!"
-    case _:
-      return "Draw!"
+  return play_game(game)
