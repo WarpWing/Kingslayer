@@ -2,7 +2,7 @@
 name = "Kingslayer"
 version = "0.1.0"
 edition = "2024"
-authors = ["Ty Chermsirivatana, chermsit@dickinson.edu"]
+authors = ["WarpWing"]
 
 [dependencies]
 bend-lang = "0.2.5"
