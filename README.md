@@ -1,4 +1,4 @@
-# Bendfish
+# Kingslayer
 Writing a Chess Engine in [Bend](https://github.com/HigherOrderCO/Bend/tree/main), a massively parallel, high-level programming language.
 
 ## Note
