@@ -1,10 +1,10 @@
 type Piece:
-  Pawn { color }
-  Knight { color }
-  Bishop { color }
-  Rook { color }
-  Queen { color }
-  King { color }
+  Pawn { color, 1 }
+  Knight { color, 3 }
+  Bishop { color, 3 }
+  Rook { color, 5 }
+  Queen { color, 9 }
+  King { color, 1000 }
 
 type Color:
   White
@@ -30,21 +30,6 @@ initial_board = [
   [Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }],
   [Square/Occupied { piece: Piece/Rook { color: Color/Black } }, Square/Occupied { piece: Piece/Knight { color: Color/Black } }, Square/Occupied { piece: Piece/Bishop { color: Color/Black } }, Square/Occupied { piece: Piece/Queen { color: Color/Black } }, Square/Occupied { piece: Piece/King { color: Color/Black } }, Square/Occupied { piece: Piece/Bishop { color: Color/Black } }, Square/Occupied { piece: Piece/Knight { color: Color/Black } }, Square/Occupied { piece: Piece/Rook { color: Color/Black } }]
 ]
-
-def get_piece_value(piece):
-  match piece:
-    case Piece/Pawn:
-      return 1
-    case Piece/Knight:
-      return 3
-    case Piece/Bishop:
-      return 3
-    case Piece/Rook:
-      return 5
-    case Piece/Queen:
-      return 9
-    case Piece/King:
-      return 1000
 
 def parse_move(notation):
   # Implement parsing chess notation and return start and end positions
