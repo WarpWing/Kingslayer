@@ -11,9 +11,9 @@ Feel free to open a PR or Issue with ideas or implementations!
 
 
 ## Authors
-
 - [@WarpWing](https://www.github.com/WarpWing)
-
+- [@Zickles](https://github.com/Zickles)
+- [@nea89o](https://github.com/nea89o)
 
 ## Acknowledgements
 
