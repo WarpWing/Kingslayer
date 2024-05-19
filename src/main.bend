@@ -1,12 +1,12 @@
-object Position { row, col }
+object Position { row: row, col: col }
 
 type Piece:
-  Pawn { color, position, value }
-  Knight { color, position, value }
-  Bishop { color, position, value }
-  Rook { color, position, value }
-  Queen { color, position, value }
-  King { color, position, value }
+  Pawn { color: color, position: position , value: value }
+  Knight { color: color, position: position , value: value }
+  Bishop { color: color, position: position , value: value }
+  Rook { color: color, position: position , value: value }
+  Queen { color: color, position: position , value: value }
+  King { color: color, position: position , value: value }
 
 type Color:
   White
