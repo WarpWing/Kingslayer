@@ -1,81 +1,52 @@
-object Position { row: row, col: col }
-
 type Piece:
-  Pawn { color: color, position: position , value: value }
-  Knight { color: color, position: position , value: value }
-  Bishop { color: color, position: position , value: value }
-  Rook { color: color, position: position , value: value }
-  Queen { color: color, position: position , value: value }
-  King { color: color, position: position , value: value }
+  Pawn { color }
+  Knight { color }
+  Bishop { color }
+  Rook { color }
+  Queen { color }
+  King { color }
 
 type Color:
   White
   Black
 
-type Board:
+type Square:
   Empty
   Occupied { piece }
+
+object InitialBoard {}
+
+InitialBoard = [
+  [Square/Occupied { piece: Piece/Rook { color: Color/White } }, Square/Occupied { piece: Piece/Knight { color: Color/White } }, Square/Occupied { piece: Piece/Bishop { color: Color/White } }, Square/Occupied { piece: Piece/Queen { color: Color/White } }, Square/Occupied { piece: Piece/King { color: Color/White } }, Square/Occupied { piece: Piece/Bishop { color: Color/White } }, Square/Occupied { piece: Piece/Knight { color: Color/White } }, Square/Occupied { piece: Piece/Rook { color: Color/White } }],
+  [Square/Occupied { piece: Piece/Pawn { color: Color/White } }, Square/Occupied { piece: Piece/Pawn { color: Color/White } }, Square/Occupied { piece: Piece/Pawn { color: Color/White } }, Square/Occupied { piece: Piece/Pawn { color: Color/White } }, Square/Occupied { piece: Piece/Pawn { color: Color/White } }, Square/Occupied { piece: Piece/Pawn { color: Color/White } }, Square/Occupied { piece: Piece/Pawn { color: Color/White } }, Square/Occupied { piece: Piece/Pawn { color: Color/White } }],
+  [Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty],
+  [Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty],
+  [Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty],
+  [Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty, Square/Empty],
+  [Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }, Square/Occupied { piece: Piece/Pawn { color: Color/Black } }],
+  [Square/Occupied { piece: Piece/Rook { color: Color/Black } }, Square/Occupied { piece: Piece/Knight { color: Color/Black } }, Square/Occupied { piece: Piece/Bishop { color: Color/Black } }, Square/Occupied { piece: Piece/Queen { color: Color/Black } }, Square/Occupied { piece: Piece/King { color: Color/Black } }, Square/Occupied { piece: Piece/Bishop { color: Color/Black } }, Square/Occupied { piece: Piece/Knight { color: Color/Black } }, Square/Occupied { piece: Piece/Rook { color: Color/Black } }]
+]
+
+type Board:
+  BoardState { squares }
 
 type Game:
   GameState { board, turn }
 
-def init_board():
-  bend row = 0, col = 0, board = []:
-    when row < 8:
-      match col:
-        case 0 | 7:
-          piece = match row:
-            case 0:
-              Piece/Rook { color: Color/White, position: Position { row, col }, value: 5 }
-            case 7:
-              Piece/Rook { color: Color/Black, position: Position { row, col }, value: 5 }
-        case 1 | 6:
-          piece = match row:
-            case 0:
-              Piece/Knight { color: Color/White, position: Position { row, col }, value: 3 }
-            case 7:
-              Piece/Knight { color: Color/Black, position: Position { row, col }, value: 3 }
-        case 2 | 5:
-          piece = match row:
-            case 0:
-              Piece/Bishop { color: Color/White, position: Position { row, col }, value: 3 }
-            case 7:
-              Piece/Bishop { color: Color/Black, position: Position { row, col }, value: 3 }
-        case 3:
-          piece = match row:
-            case 0:
-              Piece/Queen { color: Color/White, position: Position { row, col }, value: 9 }
-            case 7:
-              Piece/Queen { color: Color/Black, position: Position { row, col }, value: 9 }
-        case 4:
-          piece = match row:
-            case 0:
-              Piece/King { color: Color/White, position: Position { row, col }, value: 1000 }
-            case 7:
-              Piece/King { color: Color/Black, position: Position { row, col }, value: 1000 }
-        case _:
-          piece = match row:
-            case 1:
-              Piece/Pawn { color: Color/White, position: Position { row, col }, value: 1 }
-            case 6:
-              Piece/Pawn { color: Color/Black, position: Position { row, col }, value: 1 }
-            case _:
-              Board/Empty
-
-      board = match piece:
-        case Board/Empty:
-          Board/Empty :: board
-        case _:
-          Board/Occupied { piece } :: board
-
-      col = col + 1
-      row = match col == 8:
-        case True:
-          row + 1
-        case False:
-          row
-
-  return board
+def get_piece_value(piece):
+  match piece:
+    case Piece/Pawn:
+      return 1
+    case Piece/Knight:
+      return 3
+    case Piece/Bishop:
+      return 3
+    case Piece/Rook:
+      return 5
+    case Piece/Queen:
+      return 9
+    case Piece/King:
+      return 1000
 
 def parse_move(notation):
   # Implement parsing of chess notation (e.g., "e4", "Nf3") 
