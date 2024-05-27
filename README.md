@@ -3,6 +3,12 @@
 Writing a Chess Engine in [Bend](https://github.com/HigherOrderCO/Bend/tree/main), a massively parallel, high-level programming language.
 
 
+## Running
+
+To run this program, use [`cargo-make`](https://github.com/sagiegurari/cargo-make).
+
+The default task is `run`.
+
 ## Contributing
 
 Contributions are always welcome!

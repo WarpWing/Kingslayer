@@ -1,0 +1,28 @@
+
+[tasks.clean]
+command = "rm"
+args = ["-rf", "target"]
+
+[tasks.prepare]
+command = "mkdir"
+args = ["-p", "target"]
+
+[tasks.files]
+dependencies = ["prepare"]
+command = "gpp"
+install_crate = {crate_name ="gpp", binary="gpp"}
+install_crate_args = ["--features", "clap"]
+args = ["-o", "target/all.bend", "src/main.bend", ]
+
+[tasks.run]
+install_crate = {crate_name="bend", binary="bend"}
+command = "bend"
+dependencies = ["files"]
+args = ["run", "target/all.bend"]
+
+[tasks.default]
+alias = "run"
+
+
+
+
